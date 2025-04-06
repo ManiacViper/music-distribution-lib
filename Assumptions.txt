@@ -1,0 +1,6 @@
+- Adding a library for the requirements that will be eventually used in an api application REST or gRPC
+- Behaviours 1 to 4 im assuming can happen even before the songs are added to the system as its mostly communication between artist and record label
+- Record label can change their mind for a proposed release date (and the proposed release date itself) of a new song that already exists in the system but im not going to bother with an update function for that in this assignment
+- Not taking the release time in account although in real scenarios time of release may matter but it is complex for different timezones
+- Artist always proposes a release date when adding songs and the agreement of the proposed release date from the record label is added for those songs
+- assuming the search result to return the top song that matches the title (so the least number of substitutions, insertions and deletions)
