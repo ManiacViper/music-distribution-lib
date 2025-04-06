@@ -19,7 +19,7 @@ class SongDetailsSpec extends AnyWordSpec with Matchers {
           LocalDate.now().minusDays(1),
           isAgreedByRecordLabel = true)
 
-        val result = releasableSongs.canBeDistributed()
+        val result = releasableSongs.canBeDistributed
 
         result mustBe true
       }
@@ -34,7 +34,7 @@ class SongDetailsSpec extends AnyWordSpec with Matchers {
           today,
           isAgreedByRecordLabel = true)
 
-        val result = releasableSong.canBeDistributed()
+        val result = releasableSong.canBeDistributed
 
         result mustBe true
       }
@@ -51,7 +51,7 @@ class SongDetailsSpec extends AnyWordSpec with Matchers {
           today,
           isAgreedByRecordLabel = false)
 
-        val result = unreleasableSong.canBeDistributed()
+        val result = unreleasableSong.canBeDistributed
 
         result mustBe false
       }
@@ -66,7 +66,7 @@ class SongDetailsSpec extends AnyWordSpec with Matchers {
           tomorrow,
           isAgreedByRecordLabel = true)
 
-        val result = unreleasableSong.canBeDistributed()
+        val result = unreleasableSong.canBeDistributed
 
         result mustBe false
       }
