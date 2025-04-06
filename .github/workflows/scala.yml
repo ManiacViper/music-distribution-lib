@@ -28,9 +28,9 @@ jobs:
         distribution: 'corretto'
         cache: 'sbt'
     - name: Setup SBT
-        uses: sbt/setup-sbt@v1
+        uses: sbt/setup-sbt@v2
         with:
-          sbt-version: '1.1.7'
+          sbt-version: '1.9.6'
     - name: Run tests
       run: sbt test
       # Optional: This step uploads information to the GitHub dependency graph and unblocking Dependabot alerts for the repository
