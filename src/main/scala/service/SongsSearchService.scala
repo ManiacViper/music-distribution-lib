@@ -10,14 +10,14 @@ trait SongsSearchService {
 
 object SongsSearchService extends SongsSearchService {
   override def searchBy(searchTerm: String, songs: List[SongDetails]): Option[SongDetails] = {
-    val searchResult = songs
+    val searchResults = songs
       .map { song =>
         val diff = LevenshteinSearch.search(searchTerm, song.title)
         SearchResult(song.id, song.title, diff)
-      }.sortBy(_.diff)
-      .headOption
+      }.sortBy(searchResult => searchResult.diff)
 
-    searchResult
+    searchResults
+      .headOption
       .flatMap { result =>
         songs.find(_.id == result.id)
       }
