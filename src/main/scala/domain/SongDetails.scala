@@ -2,12 +2,17 @@ package domain
 
 import java.time.LocalDate
 import java.util.UUID
+import scala.concurrent.duration._
 
 case class ArtistDetails(id: UUID, name: String)
 
 case class SongDetails(id: UUID,
                        title: String,
-                       artist: ArtistDetails)
+                       streamed: Duration,
+                       artist: ArtistDetails) {
+  def canBeMonetized: Boolean =
+    streamed > 30.seconds
+}
 
 case class Songs(songs: List[SongDetails], proposedReleaseDate: LocalDate, isAgreedByRecordLabel: Boolean) {
   def canBeDistributed: Boolean = {

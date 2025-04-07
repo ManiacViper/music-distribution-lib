@@ -7,6 +7,7 @@ import service.SongsSearchServiceSpec.defaultSong
 
 import java.time.LocalDate
 import java.util.UUID
+import scala.concurrent.duration._
 
 class SongsSearchServiceSpec extends AnyWordSpec with Matchers {
 
@@ -46,6 +47,7 @@ object SongsSearchServiceSpec {
       SongDetails(
         UUID.randomUUID(),
         "some song",
-        artist
+        0.seconds,
+        artist,
       )
 }

@@ -5,6 +5,7 @@ import org.scalatest.wordspec.AnyWordSpec
 
 import java.time.LocalDate
 import java.util.UUID
+import scala.concurrent.duration._
 
 class SongDetailsSpec extends AnyWordSpec with Matchers {
 
@@ -15,6 +16,7 @@ class SongDetailsSpec extends AnyWordSpec with Matchers {
         val releasableSongs = Songs(List(SongDetails(
           UUID.randomUUID(),
           "some song",
+          0.seconds,
           artist)),
           LocalDate.now().minusDays(1),
           isAgreedByRecordLabel = true)
@@ -30,6 +32,7 @@ class SongDetailsSpec extends AnyWordSpec with Matchers {
         val releasableSong = Songs(List(SongDetails(
           UUID.randomUUID(),
           "some song",
+          0.seconds,
           artist)),
           today,
           isAgreedByRecordLabel = true)
@@ -47,6 +50,7 @@ class SongDetailsSpec extends AnyWordSpec with Matchers {
         val unreleasableSong = Songs(List(SongDetails(
           UUID.randomUUID(),
           "some song",
+          0.seconds,
           artist)),
           today,
           isAgreedByRecordLabel = false)
@@ -62,6 +66,7 @@ class SongDetailsSpec extends AnyWordSpec with Matchers {
         val unreleasableSong = Songs(List(SongDetails(
               UUID.randomUUID(),
               "some song",
+              0.seconds,
               artist)),
           tomorrow,
           isAgreedByRecordLabel = true)
@@ -69,6 +74,27 @@ class SongDetailsSpec extends AnyWordSpec with Matchers {
         val result = unreleasableSong.canBeDistributed
 
         result mustBe false
+      }
+    }
+  }
+
+  "SongDetails.canBeDistributed" should {
+    "return true" when {
+      "streaming for longer than 30 seconds" in {
+        val songDetail = SongDetails(UUID.randomUUID(), "some song", 31.seconds, ArtistDetails(UUID.randomUUID(), "some artist"))
+        songDetail.canBeMonetized mustBe true
+      }
+    }
+
+    "return false" when {
+      "streaming for 30 seconds" in {
+        val songDetail = SongDetails(UUID.randomUUID(), "some song", 30.seconds, ArtistDetails(UUID.randomUUID(), "some artist"))
+        songDetail.canBeMonetized mustBe false
+      }
+
+      "streaming for less than 30 seconds" in {
+        val songDetail = SongDetails(UUID.randomUUID(), "some song", 29.seconds, ArtistDetails(UUID.randomUUID(), "some artist"))
+        songDetail.canBeMonetized mustBe false
       }
     }
   }
