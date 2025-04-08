@@ -5,3 +5,4 @@
 - Artist always proposes a release date when adding songs and the agreement of the proposed release date from the record label is added for those songs
 - assuming the search result to return the top song that matches the title (so the least number of substitutions, insertions and deletions)
 - not worrying about updating more songs to the list of songs ready to release in this
+- the report im assuming will be constructed as a file of some type after calling retrieveSongs in the SongsManagementService. Not implementing the actual file being built as all the data is available for it to be in any form deemed acceptable as a report.
