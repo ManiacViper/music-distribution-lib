@@ -4,7 +4,7 @@ import cats.effect.IO
 import domain.{ArtistDetails, SongDetails, Songs}
 import org.scalatest.matchers.must.Matchers
 import org.scalatest.wordspec.AnyWordSpec
-import repository.SongsRepository
+import repository.{DefaultSongsRepository, SongsRepository}
 import service.SongsManagementServiceSpec.{artist, defaultSong, stubFailedRepository, stubSuccesfulRepository}
 
 import java.time.LocalDate
@@ -52,6 +52,63 @@ class SongsManagementServiceSpec extends AnyWordSpec with Matchers {
     }
   }
 
+  "SongsManagementService.retrieve" should {
+    "retrieve songs by artist" when {
+      "songs exist for an artist" in {
+        val songs = Songs(
+          artist,
+          List(defaultSong,
+            defaultSong.copy(id = UUID.randomUUID())),
+          proposedReleaseDate = LocalDate.now(),
+          isAgreedByRecordLabel = true
+        )
+
+        //was a bit lazy by using the actual repository, would be using a stubRepo here with Map but as ive done the same in repository it is a stub essentially for now
+        val service = new DefaultSongsManagementService[IO](new DefaultSongsRepository)
+        val _ = service.add(songs).unsafeRunSync()
+        val Some(result) = service.retrieve(artist.id).unsafeRunSync()
+
+        result mustBe songs
+      }
+    }
+
+    "no songs are returned" when {
+      "there are no songs saved for an artist" in {
+        val songs = Songs(
+          artist,
+          List(defaultSong,
+            defaultSong.copy(id = UUID.randomUUID())),
+          proposedReleaseDate = LocalDate.now(),
+          isAgreedByRecordLabel = true
+        )
+
+        //was a bit lazy by using the actual repository, would be using a stubRepo here with Map but as ive done the same in repository it is a stub essentially for now
+        val service = new DefaultSongsManagementService[IO](new DefaultSongsRepository)
+        val result = service.retrieve(artist.id).unsafeRunSync()
+
+        result mustBe None
+      }
+    }
+
+    "errors are returned" when {
+      "repository throws an error to retrieve songs for an artist" in {
+        val songs = Songs(
+          artist,
+          List(defaultSong,
+            defaultSong.copy(id = UUID.randomUUID())),
+          proposedReleaseDate = LocalDate.now(),
+          isAgreedByRecordLabel = true
+        )
+
+        val service = new DefaultSongsManagementService[IO](stubFailedRepository)
+        val result = intercept[RuntimeException](service.retrieve(artist.id).unsafeRunSync())
+
+        result.getMessage mustBe "some repository error for getSongs"
+      }
+    }
+
+  }
+
 }
 
 object SongsManagementServiceSpec {
@@ -67,7 +124,9 @@ object SongsManagementServiceSpec {
     override def addSongs(songs: Songs): IO[Unit] =
       IO.raiseError(new RuntimeException("some repository error"))
 
-    override def getSongs(artistId: UUID): IO[Option[Songs]] = ???
+    override def getSongs(artistId: UUID): IO[Option[Songs]] =
+      IO.raiseError(new RuntimeException("some repository error for getSongs"))
+
   }
   val artist: ArtistDetails = ArtistDetails(UUID.randomUUID(), "some artist")
   val today: LocalDate = LocalDate.now()
