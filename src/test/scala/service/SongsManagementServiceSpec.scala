@@ -134,6 +134,6 @@ object SongsManagementServiceSpec {
     SongDetails(
       UUID.randomUUID(),
       "some song",
-      0.seconds
+      List.empty
     )
 }

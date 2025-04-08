@@ -53,6 +53,6 @@ object DefaultSongsRepositorySpec {
     SongDetails(
       UUID.randomUUID(),
       "some song",
-      0.seconds
+      List.empty
     )
 }
