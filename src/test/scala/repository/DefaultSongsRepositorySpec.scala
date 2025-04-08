@@ -53,6 +53,7 @@ object DefaultSongsRepositorySpec {
     SongDetails(
       UUID.randomUUID(),
       "some song",
+      isStreamable = true,
       List.empty
     )
 }

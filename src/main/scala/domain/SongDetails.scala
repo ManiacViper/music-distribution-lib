@@ -14,6 +14,7 @@ case class StreamPayment(id: UUID, streamed: Duration, lastPaymentDate: Option[L
 }
 case class SongDetails(id: UUID,
                        title: String,
+                       isStreamable: Boolean,
                        streamPayments: List[StreamPayment])
 
 case class Songs(artist: ArtistDetails, songs: List[SongDetails], proposedReleaseDate: LocalDate, isAgreedByRecordLabel: Boolean) {

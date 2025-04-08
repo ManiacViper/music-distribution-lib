@@ -14,7 +14,7 @@ class SongDetailsSpec extends AnyWordSpec with Matchers {
         val artist = ArtistDetails(UUID.randomUUID(), "some artist")
         val releasableSongs = Songs(
           artist,
-          List(SongDetails(UUID.randomUUID(), "some song", List.empty)),
+          List(SongDetails(UUID.randomUUID(), "some song", isStreamable = true, List.empty)),
           LocalDate.now().minusDays(1),
           isAgreedByRecordLabel = true)
 
@@ -29,6 +29,7 @@ class SongDetailsSpec extends AnyWordSpec with Matchers {
         val releasableSong = Songs(artist, List(SongDetails(
           UUID.randomUUID(),
           "some song",
+          isStreamable = true,
           List.empty)),
           today,
           isAgreedByRecordLabel = true)
@@ -46,6 +47,7 @@ class SongDetailsSpec extends AnyWordSpec with Matchers {
         val unreleasableSong = Songs(artist, List(SongDetails(
           UUID.randomUUID(),
           "some song",
+          isStreamable = true,
           List.empty)),
           today,
           isAgreedByRecordLabel = false)
@@ -61,6 +63,7 @@ class SongDetailsSpec extends AnyWordSpec with Matchers {
         val unreleasableSong = Songs(artist, List(SongDetails(
               UUID.randomUUID(),
               "some song",
+          isStreamable = true,
           List.empty)),
           tomorrow,
           isAgreedByRecordLabel = true)

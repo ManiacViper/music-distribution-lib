@@ -155,6 +155,26 @@ class SongsManagementServiceSpec extends AnyWordSpec with Matchers {
     }
 
   }
+  "SongsManagementService.remove" should {
+    "remove songs" when {
+      "artist and song ids are provided" in {
+        val secondSong = defaultSong.copy(id = UUID.randomUUID())
+        val songs = Songs(
+          artist,
+          List(defaultSong, secondSong),
+          LocalDate.now(),
+          isAgreedByRecordLabel = true
+        )
+        val service = new DefaultSongsManagementService[IO](new DefaultSongsRepository[IO])
+
+        val _: Unit = service.add(songs).unsafeRunSync()
+        val _: Unit = service.remove(artist.id, List(defaultSong.id)).unsafeRunSync()
+        val Some(result) = service.retrieve(artist.id).unsafeRunSync()
+
+        result.songs must contain theSameElementsAs List(defaultSong.copy(isStreamable = false), secondSong)
+      }
+    }
+  }
 
 }
 
@@ -182,6 +202,7 @@ object SongsManagementServiceSpec {
     SongDetails(
       UUID.randomUUID(),
       "some song",
+      isStreamable = true,
       List.empty
     )
 }

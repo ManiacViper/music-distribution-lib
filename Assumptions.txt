@@ -7,3 +7,4 @@
 - not worrying about updating more songs to the list of songs ready to release in this
 - the report im assuming will be constructed as a file of some type after calling retrieveSongs in the SongsManagementService. Not implementing the actual file being built as all the data is available for it to be in any form deemed acceptable as a report.
 - assuming each stream is payable once to the artist so once a stream is paid then we dont need to pay for that stream again in the future.
+- artist might want specific songs not to be streamed

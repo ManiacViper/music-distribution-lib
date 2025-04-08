@@ -46,6 +46,7 @@ object SongsSearchServiceSpec {
       SongDetails(
         UUID.randomUUID(),
         "some song",
+        isStreamable = true,
         List.empty
       )
 }
