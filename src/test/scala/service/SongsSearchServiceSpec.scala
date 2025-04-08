@@ -41,13 +41,11 @@ class SongsSearchServiceSpec extends AnyWordSpec with Matchers {
 }
 
 object SongsSearchServiceSpec {
-  val artist = ArtistDetails(UUID.randomUUID(), "some artist")
   val today = LocalDate.now()
   val defaultSong =
       SongDetails(
         UUID.randomUUID(),
         "some song",
-        0.seconds,
-        artist,
+        0.seconds
       )
 }

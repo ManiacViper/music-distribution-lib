@@ -8,13 +8,12 @@ case class ArtistDetails(id: UUID, name: String)
 
 case class SongDetails(id: UUID,
                        title: String,
-                       streamed: Duration,
-                       artist: ArtistDetails) {
+                       streamed: Duration) {
   def canBeMonetized: Boolean =
     streamed > 30.seconds
 }
 
-case class Songs(songs: List[SongDetails], proposedReleaseDate: LocalDate, isAgreedByRecordLabel: Boolean) {
+case class Songs(artist: ArtistDetails, songs: List[SongDetails], proposedReleaseDate: LocalDate, isAgreedByRecordLabel: Boolean) {
   def canBeDistributed: Boolean = {
     lazy val today = LocalDate.now()
     isAgreedByRecordLabel && (proposedReleaseDate.isBefore(today) || proposedReleaseDate.isEqual(today))
